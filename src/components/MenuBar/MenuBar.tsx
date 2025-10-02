@@ -6,7 +6,7 @@ import { useAppStore } from '../../stores/appStore';
 
 export function MenuBar() {
   return (
-    <div className="fixed top-0 left-0 right-0 h-[22px] bg-aqua-menubar z-50 flex items-center px-2 text-white text-sm shadow-md select-none">
+    <div className="fixed top-0 left-0 right-0 h-[22px] bg-white/50 backdrop-blur-md aqua-menubar-pinstripe z-50 flex items-center px-2 text-black text-sm shadow-md select-none">
       {/* Apple Menu */}
       <AppleMenu />
 
@@ -36,7 +36,7 @@ function MenuBarItem({ label }: MenuBarItemProps) {
 
   return (
     <div
-      className="h-full flex items-center px-3 cursor-pointer hover:bg-white/20 transition-colors"
+      className="h-full flex items-center px-3 cursor-pointer hover:bg-black/10 transition-colors"
       onClick={() => setIsOpen(!isOpen)}
     >
       {label}

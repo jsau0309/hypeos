@@ -1,11 +1,25 @@
 import { useState } from 'react';
-import { Apple } from 'lucide-react';
+import { useAppStore } from '../../stores/appStore';
+import { useWindowStore } from '../../stores/windowStore';
 
 export function AppleMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const { apps, launchApp } = useAppStore();
+  const { createWindow } = useWindowStore();
+
+  const handleAboutClick = () => {
+    const aboutApp = apps.find(a => a.id === 'about');
+    if (!aboutApp) return;
+
+    launchApp('about');
+    createWindow('about', aboutApp.name, {
+      size: aboutApp.defaultSize || { width: 500, height: 400 },
+      position: aboutApp.defaultPosition,
+    });
+  };
 
   const menuItems = [
-    { label: 'About This Mac', action: () => console.log('About clicked') },
+    { label: 'About This Computer', action: handleAboutClick },
     { divider: true },
     { label: 'System Preferences...', action: () => console.log('Preferences clicked') },
     { divider: true },
@@ -17,10 +31,10 @@ export function AppleMenu() {
   return (
     <div className="relative">
       <div
-        className="h-[22px] flex items-center px-3 cursor-pointer hover:bg-white/20 transition-colors"
+        className="h-[22px] flex items-center px-3 cursor-pointer hover:bg-black/10 transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Apple className="w-4 h-4" fill="white" />
+        <img src="/icons/apple.png" alt="Apple" className="w-8 h-8" />
       </div>
 
       {isOpen && (

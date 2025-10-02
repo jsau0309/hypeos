@@ -6,12 +6,13 @@ interface TitleBarProps {
   onClose: () => void;
   onMinimize: () => void;
   onMaximize: () => void;
+  disabledButtons?: ('minimize' | 'maximize')[];
 }
 
-export function TitleBar({ title, isFocused, onClose, onMinimize, onMaximize }: TitleBarProps) {
+export function TitleBar({ title, isFocused, onClose, onMinimize, onMaximize, disabledButtons }: TitleBarProps) {
   return (
     <div
-      className={`window-titlebar h-[22px] bg-aqua-titlebar flex items-center justify-between px-2 cursor-move select-none ${
+      className={`window-titlebar h-[22px] bg-aqua-titlebar aqua-titlebar-pinstripe flex items-center justify-between px-2 cursor-move select-none ${
         isFocused ? 'opacity-100' : 'opacity-70'
       }`}
     >
@@ -20,8 +21,9 @@ export function TitleBar({ title, isFocused, onClose, onMinimize, onMaximize }: 
         onMinimize={onMinimize}
         onMaximize={onMaximize}
         isFocused={isFocused}
+        disabledButtons={disabledButtons}
       />
-      <div className="flex-1 text-center text-sm font-medium text-gray-700 px-4 truncate">
+      <div className="flex-1 text-center text-sm font-system text-black px-4 truncate">
         {title}
       </div>
       <div className="w-16" /> {/* Spacer to balance the buttons */}

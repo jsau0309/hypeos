@@ -7,28 +7,62 @@ interface DockIconProps {
   app: App;
   isRunning: boolean;
   onClick: () => void;
+  onDragStart?: () => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDragEnd?: () => void;
+  mouseX: number | null;
+  dockRef: React.RefObject<HTMLDivElement>;
+  isDraggingAny: boolean;
+  isBeingDragged: boolean;
 }
 
-export function DockIcon({ app, isRunning, onClick }: DockIconProps) {
+export function DockIcon({ app, isRunning, onClick, onDragStart: onDragStartProp, onDragOver: onDragOverProp, onDragEnd: onDragEndProp, isDraggingAny, isBeingDragged }: DockIconProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   // Get icon component from lucide-react
   const IconComponent = (LucideIcons as any)[app.icon] || LucideIcons.Square;
 
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('application/app-id', app.id);
+
+    // Create transparent 1x1 pixel to hide drag ghost completely
+    const transparentImg = new Image();
+    transparentImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    e.dataTransfer.setDragImage(transparentImg, 0, 0);
+
+    // Call parent's onDragStart if provided (for reordering)
+    onDragStartProp?.();
+  };
+
   return (
-    <div className="relative flex flex-col items-center">
+    <div className="relative flex flex-col items-center px-1">
       <motion.div
         className="relative cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={onClick}
-        whileHover={{ scale: 1.3 }}
+        animate={isBeingDragged ? { scale: 1.3, y: -8 } : {}}
+        whileHover={!isDraggingAny ? { scale: 1.3, y: -8 } : {}}
         whileTap={{ scale: 0.95 }}
         transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+        draggable={!app.isPinned}
+        onDragStart={handleDragStart}
+        onDragOver={onDragOverProp}
+        onDragEnd={onDragEndProp}
       >
-        <div className="w-14 h-14 bg-gradient-to-br from-gray-100 to-gray-300 rounded-xl shadow-lg flex items-center justify-center border border-gray-400/50">
-          <IconComponent className="w-8 h-8 text-gray-700" />
-        </div>
+        {app.iconUrl ? (
+          <img
+            src={app.iconUrl}
+            alt={app.name}
+            className="w-14 h-14 pointer-events-none"
+            draggable={false}
+          />
+        ) : (
+          <div className="w-14 h-14 bg-gradient-to-br from-gray-100 to-gray-300 rounded-xl shadow-lg flex items-center justify-center border border-gray-400/50">
+            <IconComponent className="w-8 h-8 text-gray-700" />
+          </div>
+        )}
 
         {/* Tooltip */}
         {isHovered && (

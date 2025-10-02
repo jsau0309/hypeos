@@ -1,12 +1,10 @@
-import { Apple } from 'lucide-react';
-
 export function About() {
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gradient-to-b from-gray-50 to-gray-100 p-8">
+    <div className="flex flex-col items-center justify-center h-full p-8">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-400 rounded-2xl flex items-center justify-center">
-            <Apple className="w-12 h-12 text-white" fill="white" />
+          <div className="w-20 h-20 rounded-2xl flex items-center justify-center">
+            <img src="/icons/hype-logo.jpeg" alt="Hype OS Logo" className="w-20 h-20 rounded-2xl" />
           </div>
 
           <div className="text-center space-y-2">
@@ -34,7 +32,7 @@ export function About() {
           </div>
 
           <p className="text-xs text-gray-500 text-center pt-4">
-            © 2025 HypeOS. A web-based Mac OS X 10.1 emulation.
+            © 2025 HypeOS. You are one connection away of your breakthrough. Mac OS X 10.1
           </p>
         </div>
       </div>

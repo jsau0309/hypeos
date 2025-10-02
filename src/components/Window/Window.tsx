@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import Draggable from 'react-draggable';
 import { ResizableBox } from 'react-resizable';
-import 'react-resizable/css/styles.css';
 import { useWindowStore } from '../../stores/windowStore';
+import { useAppStore } from '../../stores/appStore';
 import { TitleBar } from './TitleBar';
 import type { WindowState } from '../../types/window';
 
@@ -20,8 +20,12 @@ export function Window({ window, children }: WindowProps) {
     updateWindowPosition,
     updateWindowSize,
   } = useWindowStore();
+  const { apps } = useAppStore();
 
   const nodeRef = useRef(null);
+
+  const app = apps.find(a => a.id === window.appId);
+  const isModal = app?.isModal || false;
 
   if (window.isMinimized) {
     return null;
@@ -45,6 +49,14 @@ export function Window({ window, children }: WindowProps) {
         width: '100vw',
         height: 'calc(100vh - 22px)',
       }
+    : isModal
+    ? {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: window.zIndex,
+      }
     : {
         position: 'absolute',
         zIndex: window.zIndex,
@@ -53,7 +65,7 @@ export function Window({ window, children }: WindowProps) {
   const windowContent = (
     <div
       ref={nodeRef}
-      className="flex flex-col bg-aqua-window-bg rounded-lg shadow-aqua-window overflow-hidden"
+      className="panther-window flex flex-col bg-aqua-window-bg rounded-lg shadow-aqua-window overflow-hidden"
       style={style}
       onClick={() => !window.isFocused && focusWindow(window.id)}
     >
@@ -63,6 +75,7 @@ export function Window({ window, children }: WindowProps) {
         onClose={() => closeWindow(window.id)}
         onMinimize={() => minimizeWindow(window.id)}
         onMaximize={() => maximizeWindow(window.id)}
+        disabledButtons={app?.disabledButtons}
       />
       <div className="flex-1 overflow-auto bg-white">
         {children}
@@ -70,7 +83,7 @@ export function Window({ window, children }: WindowProps) {
     </div>
   );
 
-  if (window.isMaximized) {
+  if (window.isMaximized || isModal) {
     return windowContent;
   }
 

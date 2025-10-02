@@ -20,7 +20,7 @@ export default {
         },
       },
       backgroundImage: {
-        'aqua-titlebar': 'linear-gradient(180deg, #D4D4D4 0%, #BEBEBE 100%)',
+        'aqua-titlebar': 'linear-gradient(180deg, #E6E6E6 0%, #D4D4D4 100%)',
         'aqua-menubar': 'linear-gradient(180deg, #D0D0D0 0%, #A0A0A0 100%)',
         'aqua-button': 'linear-gradient(180deg, #FFFFFF 0%, #E0E0E0 100%)',
         'aqua-button-active': 'linear-gradient(180deg, #5A9EFF 0%, #0A7AFF 100%)',
