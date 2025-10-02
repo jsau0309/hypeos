@@ -38,76 +38,75 @@
     background-repeat: repeat-y;
   }
 
-  /* Aqua Window Control Buttons */
+  /* Aqua Window Control Buttons - Subtle by default */
   .window-button {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 0.5px solid;
+    border: 0.5px solid rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.15s ease-in-out;
     position: relative;
-    background: linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 50%, #c8c8c8 100%);
-    border-color: #b8b8b8;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.3) 100%);
     box-shadow:
-      inset 0 1px 0 #ffffff,
-      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
-      0 1px 1px rgba(0, 0, 0, 0.4);
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -0.5px 0 rgba(0, 0, 0, 0.05),
+      0 0.5px 1px rgba(0, 0, 0, 0.15);
   }
 
-  /* Show colors when window is hovered */
-  .panther-window:hover .window-close {
-    background: linear-gradient(180deg, #f76d5e 0%, #ed6a5f 40%, #e24b41 100%);
-    border-color: #d23c31;
+  /* Show colors only when hovering over each individual button */
+  .window-close:hover {
+    background: linear-gradient(180deg, #ff6159 0%, #ed574e 40%, #d94136 100%);
+    border-color: #c63028;
     box-shadow:
-      inset 0 1px 1px #ffffff,
-      inset 0 -1px 1px rgba(0, 0, 0, 0.15),
-      0 1px 2px rgba(0, 0, 0, 0.4);
+      inset 0 0.5px 1px rgba(255, 255, 255, 0.3),
+      inset 0 -0.5px 1px rgba(0, 0, 0, 0.15),
+      0 1px 2px rgba(0, 0, 0, 0.3);
   }
 
-  .panther-window:hover .window-close:active {
-    background: #e0e0e0;
-    border-color: #a14239;
+  .window-close:active {
+    background: linear-gradient(180deg, #c74139 0%, #b53830 100%);
+    border-color: #a02d26;
     box-shadow:
-      inset 0 1px 2px rgba(0, 0, 0, 0.4),
-      0 1px 1px rgba(0, 0, 0, 0.2);
+      inset 0 1px 2px rgba(0, 0, 0, 0.3),
+      0 0.5px 1px rgba(0, 0, 0, 0.2);
   }
 
-  .panther-window:hover .window-minimize {
-    background: linear-gradient(180deg, #ffd166 0%, #f6be50 40%, #e1a73e 100%);
-    border-color: #d39833;
+  .window-minimize:hover {
+    background: linear-gradient(180deg, #ffbd2e 0%, #f0b030 40%, #daa52a 100%);
+    border-color: #c89424;
     box-shadow:
-      inset 0 1px 1px #ffffff,
-      inset 0 -1px 1px rgba(0, 0, 0, 0.15),
-      0 1px 2px rgba(0, 0, 0, 0.4);
+      inset 0 0.5px 1px rgba(255, 255, 255, 0.3),
+      inset 0 -0.5px 1px rgba(0, 0, 0, 0.15),
+      0 1px 2px rgba(0, 0, 0, 0.3);
   }
 
-  .panther-window:hover .window-minimize:active {
-    background: #e0e0e0;
-    border-color: #a67f36;
+  .window-minimize:active {
+    background: linear-gradient(180deg, #d89828 0%, #c28824 100%);
+    border-color: #a67320;
     box-shadow:
-      inset 0 1px 2px rgba(0, 0, 0, 0.4),
-      0 1px 1px rgba(0, 0, 0, 0.2);
+      inset 0 1px 2px rgba(0, 0, 0, 0.3),
+      0 0.5px 1px rgba(0, 0, 0, 0.2);
   }
 
-  .panther-window:hover .window-maximize {
-    background: linear-gradient(180deg, #72d964 0%, #61c555 40%, #2dac2f 100%);
-    border-color: #249d26;
+  .window-maximize:hover {
+    background: linear-gradient(180deg, #28ca42 0%, #26b93d 40%, #20a436 100%);
+    border-color: #1d912f;
     box-shadow:
-      inset 0 1px 1px #ffffff,
-      inset 0 -1px 1px rgba(0, 0, 0, 0.15),
-      0 1px 2px rgba(0, 0, 0, 0.4);
+      inset 0 0.5px 1px rgba(255, 255, 255, 0.3),
+      inset 0 -0.5px 1px rgba(0, 0, 0, 0.15),
+      0 1px 2px rgba(0, 0, 0, 0.3);
   }
 
-  .panther-window:hover .window-maximize:active {
-    background: #e0e0e0;
-    border-color: #428234;
+  .window-maximize:active {
+    background: linear-gradient(180deg, #22a238 0%, #1e9032 100%);
+    border-color: #197a29;
     box-shadow:
-      inset 0 1px 2px rgba(0, 0, 0, 0.4),
-      0 1px 1px rgba(0, 0, 0, 0.2);
+      inset 0 1px 2px rgba(0, 0, 0, 0.3),
+      0 0.5px 1px rgba(0, 0, 0, 0.2);
   }
 
-  /* Icons on hover */
+  /* Icons appear only on individual button hover */
   .window-button::after {
     content: '';
     position: absolute;
@@ -118,48 +117,43 @@
     font-size: 9px;
     line-height: 1;
     opacity: 0;
-    transition: opacity 0.1s ease-in-out;
+    transition: opacity 0.15s ease-in-out;
   }
 
-  .panther-window:hover .window-close:hover::after {
+  .window-close:hover::after {
     content: '×';
-    color: #4a0a07;
+    color: rgba(70, 10, 7, 0.8);
     opacity: 1;
   }
 
-  .panther-window:hover .window-minimize:hover::after {
+  .window-minimize:hover::after {
     content: '−';
-    color: #7a5915;
+    color: rgba(100, 70, 15, 0.8);
     opacity: 1;
   }
 
-  .panther-window:hover .window-maximize:hover::after {
+  .window-maximize:hover::after {
     content: '+';
-    color: #10541a;
+    color: rgba(16, 84, 26, 0.8);
     opacity: 1;
   }
 
-  /* Disabled buttons - stay gray and no hover effects */
+  /* Disabled buttons - stay subtle and no hover effects */
   .window-button-disabled {
     cursor: default !important;
-    background: linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 50%, #c8c8c8 100%) !important;
-    border-color: #b8b8b8 !important;
-    box-shadow:
-      inset 0 1px 0 #ffffff,
-      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
-      0 1px 1px rgba(0, 0, 0, 0.4) !important;
+    opacity: 0.4;
   }
 
-  .panther-window:hover .window-button-disabled {
-    background: linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 50%, #c8c8c8 100%) !important;
-    border-color: #b8b8b8 !important;
+  .window-button-disabled:hover {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.3) 100%) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
     box-shadow:
-      inset 0 1px 0 #ffffff,
-      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
-      0 1px 1px rgba(0, 0, 0, 0.4) !important;
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -0.5px 0 rgba(0, 0, 0, 0.05),
+      0 0.5px 1px rgba(0, 0, 0, 0.15) !important;
   }
 
-  .panther-window:hover .window-button-disabled:hover::after {
+  .window-button-disabled:hover::after {
     content: '' !important;
     opacity: 0 !important;
   }
@@ -178,20 +172,75 @@
     background-repeat: repeat-y;
   }
 
-  /* Custom resize handle styling - completely hide by default */
-  .react-resizable-handle,
-  .react-resizable-handle-se,
-  .react-resizable-handle-sw,
-  .react-resizable-handle-ne,
-  .react-resizable-handle-nw,
-  .react-resizable-handle-n,
-  .react-resizable-handle-s,
-  .react-resizable-handle-e,
-  .react-resizable-handle-w {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    width: 0 !important;
-    height: 0 !important;
+  /* Custom resize handles */
+  .resize-handle {
+    position: absolute;
+    z-index: 10;
+  }
+
+  /* Edge handles */
+  .resize-handle-n {
+    top: 0;
+    left: 8px;
+    right: 8px;
+    height: 4px;
+    cursor: n-resize;
+  }
+
+  .resize-handle-s {
+    bottom: 0;
+    left: 8px;
+    right: 8px;
+    height: 4px;
+    cursor: s-resize;
+  }
+
+  .resize-handle-e {
+    right: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 4px;
+    cursor: e-resize;
+  }
+
+  .resize-handle-w {
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 4px;
+    cursor: w-resize;
+  }
+
+  /* Corner handles */
+  .resize-handle-ne {
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    cursor: ne-resize;
+  }
+
+  .resize-handle-nw {
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    cursor: nw-resize;
+  }
+
+  .resize-handle-se {
+    bottom: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    cursor: se-resize;
+  }
+
+  .resize-handle-sw {
+    bottom: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    cursor: sw-resize;
   }
 }

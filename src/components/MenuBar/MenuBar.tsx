@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Apple } from 'lucide-react';
+import { useState } from 'react';
 import { AppleMenu } from './AppleMenu';
 import { SystemIcons } from './SystemIcons';
-import { useAppStore } from '../../stores/appStore';
 
 export function MenuBar() {
   return (

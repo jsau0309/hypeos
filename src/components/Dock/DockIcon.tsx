@@ -7,16 +7,17 @@ interface DockIconProps {
   app: App;
   isRunning: boolean;
   onClick: () => void;
+  onContextMenu?: (e: React.MouseEvent) => void;
   onDragStart?: () => void;
   onDragOver?: (e: React.DragEvent) => void;
   onDragEnd?: () => void;
   mouseX: number | null;
-  dockRef: React.RefObject<HTMLDivElement>;
+  dockRef: React.RefObject<HTMLDivElement | null>;
   isDraggingAny: boolean;
   isBeingDragged: boolean;
 }
 
-export function DockIcon({ app, isRunning, onClick, onDragStart: onDragStartProp, onDragOver: onDragOverProp, onDragEnd: onDragEndProp, isDraggingAny, isBeingDragged }: DockIconProps) {
+export function DockIcon({ app, isRunning, onClick, onContextMenu, onDragStart: onDragStartProp, onDragOver: onDragOverProp, onDragEnd: onDragEndProp, isDraggingAny, isBeingDragged }: DockIconProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   // Get icon component from lucide-react
@@ -36,20 +37,30 @@ export function DockIcon({ app, isRunning, onClick, onDragStart: onDragStartProp
   };
 
   return (
-    <div className="relative flex flex-col items-center px-1">
+    <motion.div
+      className="relative flex flex-col items-center px-1"
+      layout
+      transition={{
+        layout: {
+          duration: 0.15,
+          ease: 'easeOut'
+        }
+      }}
+    >
       <motion.div
         className="relative cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={onClick}
+        onContextMenu={onContextMenu}
         animate={isBeingDragged ? { scale: 1.3, y: -8 } : {}}
         whileHover={!isDraggingAny ? { scale: 1.3, y: -8 } : {}}
         whileTap={{ scale: 0.95 }}
         transition={{ type: 'spring', stiffness: 400, damping: 17 }}
         draggable={!app.isPinned}
-        onDragStart={handleDragStart}
-        onDragOver={onDragOverProp}
-        onDragEnd={onDragEndProp}
+        onDragStart={handleDragStart as any}
+        onDragOver={onDragOverProp as any}
+        onDragEnd={onDragEndProp as any}
       >
         {app.iconUrl ? (
           <img
@@ -64,8 +75,8 @@ export function DockIcon({ app, isRunning, onClick, onDragStart: onDragStartProp
           </div>
         )}
 
-        {/* Tooltip */}
-        {isHovered && (
+        {/* Tooltip - show on hover only if not dragging any icon, or show on dragged icon */}
+        {((isHovered && !isDraggingAny) || isBeingDragged) && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: -10 }}
@@ -80,6 +91,6 @@ export function DockIcon({ app, isRunning, onClick, onDragStart: onDragStartProp
       {isRunning && (
         <div className="absolute -bottom-1 w-1 h-1 bg-gray-700 rounded-full" />
       )}
-    </div>
+    </motion.div>
   );
 }

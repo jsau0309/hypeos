@@ -6,7 +6,7 @@ interface WindowButtonsProps {
   disabledButtons?: ('minimize' | 'maximize')[];
 }
 
-export function WindowButtons({ onClose, onMinimize, onMaximize, isFocused, disabledButtons = [] }: WindowButtonsProps) {
+export function WindowButtons({ onClose, onMinimize, onMaximize, disabledButtons = [] }: WindowButtonsProps) {
   const isMinimizeDisabled = disabledButtons.includes('minimize');
   const isMaximizeDisabled = disabledButtons.includes('maximize');
 
@@ -15,6 +15,9 @@ export function WindowButtons({ onClose, onMinimize, onMaximize, isFocused, disa
       {/* Close Button (Red) */}
       <button
         className="window-button window-close"
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
         onClick={(e) => {
           e.stopPropagation();
           onClose();
@@ -24,6 +27,9 @@ export function WindowButtons({ onClose, onMinimize, onMaximize, isFocused, disa
       {/* Minimize Button (Yellow) */}
       <button
         className={`window-button window-minimize ${isMinimizeDisabled ? 'window-button-disabled' : ''}`}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
         onClick={(e) => {
           e.stopPropagation();
           if (!isMinimizeDisabled) {
@@ -36,6 +42,9 @@ export function WindowButtons({ onClose, onMinimize, onMaximize, isFocused, disa
       {/* Maximize Button (Green) */}
       <button
         className={`window-button window-maximize ${isMaximizeDisabled ? 'window-button-disabled' : ''}`}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
         onClick={(e) => {
           e.stopPropagation();
           if (!isMaximizeDisabled) {

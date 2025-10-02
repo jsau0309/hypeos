@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { WindowState } from '../types/window';
+import { useAppStore } from './appStore';
 
 interface WindowStore {
   windows: WindowState[];
@@ -9,6 +10,8 @@ interface WindowStore {
   createWindow: (appId: string, title: string, props?: Partial<WindowState>) => string;
   focusWindow: (id: string) => void;
   closeWindow: (id: string) => void;
+  hideWindow: (id: string) => void;
+  hardCloseWindow: (id: string) => void;
   minimizeWindow: (id: string) => void;
   maximizeWindow: (id: string) => void;
   updateWindowPosition: (id: string, position: { x: number; y: number }) => void;
@@ -34,6 +37,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
       isMinimized: false,
       isMaximized: false,
       isFocused: true,
+      isHidden: false,
     };
 
     set({
@@ -49,12 +53,14 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
     const state = get();
     const window = state.windows.find(w => w.id === id);
 
-    if (!window || window.isMinimized) return;
+    if (!window) return;
 
     set({
       windows: state.windows.map(w => ({
         ...w,
         isFocused: w.id === id,
+        isMinimized: w.id === id ? false : w.isMinimized,
+        isHidden: w.id === id ? false : w.isHidden,
         zIndex: w.id === id ? state.nextZIndex : w.zIndex,
       })),
       nextZIndex: state.nextZIndex + 1,
@@ -63,8 +69,36 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
   },
 
   closeWindow: (id) => {
+    // This is now just an alias for hideWindow for backwards compatibility
+    get().hideWindow(id);
+  },
+
+  hideWindow: (id) => {
     const state = get();
+    const window = state.windows.find(w => w.id === id);
+
+    if (!window) return;
+
+    // Hide the window but keep app running
+    set({
+      windows: state.windows.map(w =>
+        w.id === id
+          ? { ...w, isHidden: true, isFocused: false }
+          : w
+      ),
+      activeWindowId: state.activeWindowId === id ? null : state.activeWindowId,
+    });
+  },
+
+  hardCloseWindow: (id) => {
+    const state = get();
+    const windowToClose = state.windows.find(w => w.id === id);
     const remainingWindows = state.windows.filter(w => w.id !== id);
+
+    // Close the app completely
+    if (windowToClose) {
+      useAppStore.getState().closeApp(windowToClose.appId);
+    }
 
     // Focus the top-most remaining window
     const topWindow = remainingWindows.reduce((prev, current) =>
@@ -78,12 +112,22 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
   },
 
   minimizeWindow: (id) => {
-    set(state => ({
+    const state = get();
+    const window = state.windows.find(w => w.id === id);
+
+    if (!window) return;
+
+    // Toggle minimize state
+    const newMinimizedState = !window.isMinimized;
+
+    set({
       windows: state.windows.map(w =>
-        w.id === id ? { ...w, isMinimized: true, isFocused: false } : w
+        w.id === id
+          ? { ...w, isMinimized: newMinimizedState, isFocused: !newMinimizedState }
+          : w
       ),
-      activeWindowId: state.activeWindowId === id ? null : state.activeWindowId,
-    }));
+      activeWindowId: newMinimizedState && state.activeWindowId === id ? null : state.activeWindowId,
+    });
   },
 
   maximizeWindow: (id) => {

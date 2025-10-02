@@ -8,6 +8,7 @@ export interface WindowState {
   isMinimized: boolean;
   isMaximized: boolean;
   isFocused: boolean;
+  isHidden: boolean; // Hidden via close button (app still running)
 }
 
 export interface WindowProps {

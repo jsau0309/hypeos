@@ -5,22 +5,18 @@ interface AppStore {
   apps: App[];
   runningApps: string[];
   activeAppId: string | null;
-  hiddenFromDock: string[];
 
   registerApp: (app: App) => void;
   launchApp: (appId: string) => void;
   closeApp: (appId: string) => void;
   setActiveApp: (appId: string | null) => void;
   reorderApps: (fromIndex: number, toIndex: number) => void;
-  hideFromDock: (appId: string) => void;
-  showInDock: (appId: string) => void;
 }
 
 export const useAppStore = create<AppStore>((set) => ({
   apps: [],
   runningApps: [],
   activeAppId: null,
-  hiddenFromDock: [],
 
   registerApp: (app) => {
     set(state => ({
@@ -55,17 +51,5 @@ export const useAppStore = create<AppStore>((set) => ({
       newApps.splice(toIndex, 0, movedApp);
       return { apps: newApps };
     });
-  },
-
-  hideFromDock: (appId) => {
-    set(state => ({
-      hiddenFromDock: [...state.hiddenFromDock, appId],
-    }));
-  },
-
-  showInDock: (appId) => {
-    set(state => ({
-      hiddenFromDock: state.hiddenFromDock.filter(id => id !== appId),
-    }));
   },
 }));
